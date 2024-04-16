@@ -16,9 +16,7 @@ class ISRDataset(Dataset):
         self.enum = enum
         
     def __len__(self):
-        tag = "No"
-        if self.bb:
-            tag = "Yes"
+        tag = "Yes" if self.bb else "No" 
         
         if self.enum == TRAIN:
             return find_file_length(f"../data/TrainImages{tag}.txt")
@@ -28,9 +26,7 @@ class ISRDataset(Dataset):
             return find_file_length(f"../data/TestImages{tag}.txt")
     
     def __getitem__(self, idx):
-        tag = "No"
-        if self.bb:
-            tag = "Yes"
+        tag = "Yes" if self.bb else "No"
         
         if self.enum == TRAIN:
             with open(f"../data/TrainImages{tag}.txt", "r") as f:
