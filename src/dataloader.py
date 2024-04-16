@@ -1,4 +1,5 @@
 from PIL import Image
+import torch
 from torch.utils.data import Dataset, DataLoader
 
 TRAIN = 0
@@ -40,7 +41,7 @@ class ISRDataset(Dataset):
             with open(f"../data/TestLabels.txt", "r") as f:
                 label = f.readlines()[idx].strip()
         
-        image = Image.open(image_path)
+        image = torch.load("../data/tensors/" + image_path + ".pt")
         
         label = int(label)
         
