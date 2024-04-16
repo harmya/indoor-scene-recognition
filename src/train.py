@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
-from sklearn.metrics import accuracy_score, classification_report
 from dataloader import get_data_loader
 from models import ResNet
  
