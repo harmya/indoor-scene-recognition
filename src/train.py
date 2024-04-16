@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
     # Load the data
     BOUNDING_BOXES = True
-    train_loader, val_loader, test_loader = get_data_loader(bounding_boxes = BOUNDING_BOXES)
+    train_loader, val_loader, test_loader = get_data_loader(sampling = "random", bounding_boxes = BOUNDING_BOXES)
 
     # Load the model
     model = ResNet().to(device)
