@@ -2976,7 +2976,8 @@ stairscase/int538.jpg
 kitchen/cdmc1164.jpg
 cloister/Abbaye_Royale_de_Fontevraud_IMG_5466.jpg
 gym/web_cardio_theatre_gym.jpg
-concert_hall/StageFulltag.jpgbowling/bowling_0077.jpg
+concert_hall/StageFulltag.jpg
+bowling/bowling_0077.jpg
 prisoncell/153430565_b7c67fd743.jpg
 office/int77.jpg
 bowling/bowling_0178.jpg
