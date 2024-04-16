@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     # Load the data
     BOUNDING_BOXES = True
-    train_loader, test_loader = get_data_loader(bounding_boxes = BOUNDING_BOXES)
+    train_loader, val_loader, test_loader = get_data_loader(bounding_boxes = BOUNDING_BOXES)
 
     # Load the model
     model = ResNet().to(device)
@@ -33,8 +33,8 @@ if __name__ == '__main__':
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     EPOCHS = 10
 
-    # Training Loop
     for epoch in range(EPOCHS):
+        # Training Loop
         for i, (images, labels) in enumerate(train_loader):
             images = images.to(device)
             labels = labels.to(device)
@@ -54,6 +54,32 @@ if __name__ == '__main__':
             if (i+1) % 100 == 0:
                 print(f'Epoch [{epoch+1}/{EPOCHS}], Step [{i+1}/{len(train_loader)}], Loss: {loss.item()}')
 
-    # Validation Loop
+        # Validation Loop
+        with torch.no_grad():
+            correct = 0
+            total = 0
+            for images, labels in val_loader:
+                images = images.to(device)
+                labels = labels.to(device)
 
-    # Testing Loop
+                outputs = model(images)
+                _, predicted = torch.max(outputs.data, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
+
+            print(f'Epoch [{epoch+1}/{EPOCHS}], Validation Accuracy: {100 * correct / total}')
+
+        # Testing Loop
+        with torch.no_grad():
+            correct = 0
+            total = 0
+            for images, labels in test_loader:
+                images = images.to(device)
+                labels = labels.to(device)
+
+                outputs = model(images)
+                _, predicted = torch.max(outputs.data, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
+
+            print(f'Epoch [{epoch+1}/{EPOCHS}], Test Accuracy: {100 * correct / total}')
