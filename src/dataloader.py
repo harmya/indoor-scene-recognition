@@ -16,32 +16,28 @@ class ISRDataset(Dataset):
         self.enum = enum
         
     def __len__(self):
-        tag = "Yes" if self.bb else "No" 
-        
         if self.enum == TRAIN:
-            return find_file_length(f"../data/TrainImages{tag}.txt")
+            return find_file_length(f"../data/TrainImages.txt")
         elif self.enum == VAL:
-            return find_file_length(f"../data/ValImages{tag}.txt")
+            return find_file_length(f"../data/ValImages.txt")
         else:
-            return find_file_length(f"../data/TestImages{tag}.txt")
+            return find_file_length(f"../data/TestImages.txt")
     
     def __getitem__(self, idx):
-        tag = "Yes" if self.bb else "No"
-        
         if self.enum == TRAIN:
-            with open(f"../data/TrainImages{tag}.txt", "r") as f:
+            with open(f"../data/TrainImages.txt", "r") as f:
                 image_path = f.readlines()[idx].strip()
-            with open(f"../data/TrainLabels{tag}.txt", "r") as f:
+            with open(f"../data/TrainLabels.txt", "r") as f:
                 label = f.readlines()[idx].strip()
         elif self.enum == VAL:
-            with open(f"../data/ValImages{tag}.txt", "r") as f:
+            with open(f"../data/ValImages.txt", "r") as f:
                 image_path = f.readlines()[idx].strip()
-            with open(f"../data/ValLabels{tag}.txt", "r") as f:
+            with open(f"../data/ValLabels.txt", "r") as f:
                 label = f.readlines()[idx].strip()
         else:
-            with open(f"../data/TestImages{tag}.txt", "r") as f:
+            with open(f"../data/TestImages.txt", "r") as f:
                 image_path = f.readlines()[idx].strip()
-            with open(f"../data/TestLabels{tag}.txt", "r") as f:
+            with open(f"../data/TestLabels.txt", "r") as f:
                 label = f.readlines()[idx].strip()
         
         image = Image.open(image_path)

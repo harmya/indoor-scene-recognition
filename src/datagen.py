@@ -24,8 +24,7 @@ def gen_data_files(enum = 0, bb = False):
         tag = "Val"
     if enum == 2:
         tag = "Test"
-    tag1 = "Yes" if bb else "No"
-    file_path = "../data/{tag}Images{tag1}.txt"
+    file_path = "../data/{tag}Images.txt"
     # with open(file_path, "w") as f:
 
 if __name__ == "__main__":
