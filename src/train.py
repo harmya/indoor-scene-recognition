@@ -21,6 +21,10 @@ if __name__ == '__main__':
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     EPOCHS = 10
 
+    train_losses = []
+    val_losses = []
+    test_losses = []
+
     for epoch in range(EPOCHS):
         # Training Loop
         for i, (images, labels) in enumerate(train_loader):
@@ -35,6 +39,10 @@ if __name__ == '__main__':
             # Calculate loss and perform backprop
             loss = criterion(outputs, labels)
             loss.backward()
+
+            # Save train loss
+            train_loss = loss.item()
+            train_losses.append(train_loss)
 
             optimizer.step()
 
@@ -51,6 +59,12 @@ if __name__ == '__main__':
                 labels = labels.to(device)
 
                 outputs = model(images)
+
+                # Save val loss
+                val_loss = criterion(outputs, labels).item()
+                val_losses.append(val_loss)
+
+                # Find predictions and Compute accuracy
                 _, predicted = torch.max(outputs.data, 1)
                 total += labels.size(0)
                 correct += (predicted == labels).sum().item()
@@ -66,8 +80,23 @@ if __name__ == '__main__':
                 labels = labels.to(device)
 
                 outputs = model(images)
+
+                # Save test loss
+                test_loss = criterion(outputs, labels).item()
+                test_losses.append(test_loss)
+
+                # Find predictions and Compute accuracy
                 _, predicted = torch.max(outputs.data, 1)
                 total += labels.size(0)
                 correct += (predicted == labels).sum().item()
 
             print(f'Epoch [{epoch+1}/{EPOCHS}], Test Accuracy: {100 * correct / total}')
+
+    # Plot train, val, and test losses
+    plt.plot(range(1, EPOCHS+1), train_losses, label='Train Loss')
+    plt.plot(range(1, EPOCHS+1), val_losses, label='Val Loss')
+    plt.plot(range(1, EPOCHS+1), test_losses, label='Test Loss')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.show()
