@@ -54,12 +54,10 @@ class ISRDataset(Dataset):
                 label = f.readlines()[idx].strip()
         
         image = Image.open(image_path)
-        image = image.convert("RGB")
         
         label = int(label)
         
         return image, label
-
 
 def get_label_to_idx():
     label_to_idx = {}
@@ -70,4 +68,12 @@ def get_label_to_idx():
     return label_to_idx
 
 def get_data_loader(sampling = "random", bounding_boxes = True):
-    return None, None, None
+    trainData = ISRDataset(bb = bounding_boxes, enum = TRAIN)
+    valData = ISRDataset(bb = bounding_boxes, enum = VAL)
+    testData = ISRDataset(bb = bounding_boxes, enum = TEST)
+
+    train_loader = DataLoader(trainData, batch_size=32, shuffle=True)
+    val_loader = DataLoader(valData, batch_size=32, shuffle=False)
+    test_loader = DataLoader(testData, batch_size=32, shuffle=False)
+
+    return train_loader, val_loader, test_loader
