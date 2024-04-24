@@ -95,4 +95,5 @@ if __name__ == "__main__":
     # to split the data into train and val : split_train_val()
     # to generate test set: gen_test_set()
     # to generate tensors from images: gen_data_tensors()
+    # to generate labels: gen_labels(TRAIN), gen_labels(VAL), gen_labels(TEST)
     pass
