@@ -9,7 +9,7 @@ if __name__ == '__main__':
     print(f'Using device: {device}')
 
     # Load the data
-    BOUNDING_BOXES = True
+    BOUNDING_BOXES = False 
     train_loader, val_loader, test_loader = get_data_loader(sampling = "random", bounding_boxes = BOUNDING_BOXES)
 
     # Load the model
@@ -27,8 +27,8 @@ if __name__ == '__main__':
     for epoch in range(EPOCHS):
         # Training Loop
         for i, (images, labels) in enumerate(train_loader):
-            images = images.to(device)
-            labels = labels.to(device)
+            images = images.to(device).float()
+            labels = labels.to(device).long()
 
             optimizer.zero_grad()
 
@@ -54,8 +54,8 @@ if __name__ == '__main__':
             correct = 0
             total = 0
             for images, labels in val_loader:
-                images = images.to(device)
-                labels = labels.to(device)
+                images = images.to(device).float()
+                labels = labels.to(device).long()
 
                 outputs = model(images)
 
@@ -75,8 +75,8 @@ if __name__ == '__main__':
             correct = 0
             total = 0
             for images, labels in test_loader:
-                images = images.to(device)
-                labels = labels.to(device)
+                images = images.to(device).float()
+                labels = labels.to(device).long()
 
                 outputs = model(images)
 

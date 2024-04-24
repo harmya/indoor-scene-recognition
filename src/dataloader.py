@@ -1,6 +1,7 @@
 from PIL import Image
 import torch
 from torch.utils.data import Dataset, DataLoader
+from torchvision import transforms
 
 TRAIN = 0
 VAL = 1
@@ -42,10 +43,14 @@ class ISRDataset(Dataset):
                 label = f.readlines()[idx].strip()
         
         image = torch.load("../data/tensors/" + image_path + ".pt")
+        transform = transforms.Compose([ 
+            transforms.PILToTensor() 
+        ])
+        image = transform(image)
         
-        label = int(label)
-        
-        return image, label
+        label_idx = get_label_to_idx()[label]
+
+        return image, label_idx
 
 def get_label_to_idx():
     label_to_idx = {}
