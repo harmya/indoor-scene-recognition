@@ -7,6 +7,10 @@ import matplotlib.pyplot as plt
 from ultralytics import YOLO
 import cv2
 
+TRAIN = 0
+VAL = 1
+TEST = 2
+
 model = YOLO('yolov9c.pt')
 
 def stack_bb(file_name):
@@ -33,6 +37,7 @@ def mod_data(file_list):
         modded_data.append(result)
     return torch.stack(modded_data)
 
+# TODO : make it a function which takes in an enum (TRAIN, VAL, TEST) and saves the bounded tensors
 file_list = []
 with open("./data/TestImages.txt", 'r') as file:
     for line in file:
