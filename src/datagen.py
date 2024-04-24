@@ -15,10 +15,10 @@ def gen_data_tensors():
         test_images = f.readlines()
 
     # Run the below command to create the required subdirectories in the tensors folder:
-    # image_subdirectories = [name for name in os.listdir("../data/images") if os.path.isdir(os.path.join("../data/images", name))]
+    image_subdirectories = [name for name in os.listdir("../data/images") if os.path.isdir(os.path.join("../data/images", name))]
 
-    # for subdirectory in image_subdirectories:
-    #     os.makedirs(os.path.join("../data/tensors", subdirectory), exist_ok=True)
+    for subdirectory in image_subdirectories:
+        os.makedirs(os.path.join("../data/tensors", subdirectory), exist_ok=True)
 
     train_images = [img.strip() for img in train_images]
     val_images = [img.strip() for img in val_images]
@@ -79,5 +79,4 @@ def gen_test_set():
 if __name__ == "__main__":
     # to split the data into train and val : split_train_val()
     # to generate test set: gen_test_set()
-    # to generate tensors from images: gen_data_tensors()
-    pass
+    gen_data_tensors()

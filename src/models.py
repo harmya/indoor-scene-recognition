@@ -11,3 +11,4 @@ class ResNet(nn.Module):
 
     def forward(self, x):
         return self.sigmoid(self.resnet(x))
+        
