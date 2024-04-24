@@ -75,8 +75,21 @@ def gen_test_set():
             with open("../data/TestImages.txt", "w") as f:
                 f.writelines(content)
         
+def gen_labels(split = TRAIN):
+    splitName = "Train"
+    if split == VAL:
+        splitName = "Val"
+    elif split == TEST:
+        splitName = "Test"
+    with open(f"../data/{splitName}Images.txt", "r") as f:
+        images = f.readlines()
+    with open(f"../data/{splitName}Labels.txt", "w") as f:
+        for image in images:
+            label = image.split("/")[0]
+            f.write(label + "\n")
 
 if __name__ == "__main__":
     # to split the data into train and val : split_train_val()
     # to generate test set: gen_test_set()
-    gen_data_tensors()
+    # to generate tensors from images: gen_data_tensors()
+    pass
