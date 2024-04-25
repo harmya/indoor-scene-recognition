@@ -27,14 +27,17 @@ def gen_data_tensors():
     for img in train_images:
         image = Image.open(f"../data/images/{img}")
         image = image.resize((300, 300))
+        image = image.convert("RGB")
         torch.save(image, f"../data/tensors/{img}.pt")
     for img in val_images:
         image = Image.open(f"../data/images/{img}")
         image = image.resize((300, 300))
+        image = image.convert("RGB")
         torch.save(image, f"../data/tensors/{img}.pt")
     for img in test_images:
         image = Image.open(f"../data/images/{img}")
         image = image.resize((300, 300))
+        image = image.convert("RGB")
         torch.save(image, f"../data/tensors/{img}.pt")
 
 def split_train_val():

@@ -17,7 +17,8 @@ if __name__ == '__main__':
 
     # Hyperparameters
     criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-5)
+    
     EPOCHS = 10
 
     train_losses = []
@@ -45,9 +46,30 @@ if __name__ == '__main__':
 
             optimizer.step()
 
-            # Print Epoch Loss every 100 steps
-            if (i+1) % 100 == 0:
+            # Print Epoch Loss every 10 steps
+            if (i+1) % 10 == 0:
                 print(f'Epoch [{epoch+1}/{EPOCHS}], Step [{i+1}/{len(train_loader)}], Loss: {loss.item()}')
+
+        # Training Accuracy
+        with torch.no_grad():
+            correct = 0
+            total = 0
+            for images, labels in train_loader:
+                images = images.to(device).float()
+                labels = labels.to(device).long()
+
+                outputs = model(images)
+
+                # Save val loss
+                val_loss = criterion(outputs, labels).item()
+                val_losses.append(val_loss)
+
+                # Find predictions and Compute accuracy
+                _, predicted = torch.max(outputs.data, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
+
+            print(f'Epoch [{epoch+1}/{EPOCHS}], Validation Accuracy: {100 * correct / total}')
 
         # Validation Loop
         with torch.no_grad():
