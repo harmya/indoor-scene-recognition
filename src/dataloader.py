@@ -42,11 +42,14 @@ class ISRDataset(Dataset):
             with open(f"../data/TestLabels.txt", "r") as f:
                 label = f.readlines()[idx].strip()
         
-        image = torch.load("../data/tensors/" + image_path + ".pt")
-        transform = transforms.Compose([ 
-            transforms.PILToTensor() 
-        ])
-        image = transform(image)
+        if self.bb:
+            image = torch.load("../data/tensors_bb/" + image_path + ".pt")
+        else:
+            image = torch.load("../data/tensors/" + image_path + ".pt")
+            transform = transforms.Compose([ 
+                transforms.PILToTensor() 
+            ])
+            image = transform(image)
         
         label_idx = get_label_to_idx()[label]
 
