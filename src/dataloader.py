@@ -1,4 +1,4 @@
-from PIL import Image
+import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
@@ -44,6 +44,8 @@ class ISRDataset(Dataset):
         
         if self.bb:
             image = torch.load("../data/tensors_bb/" + image_path + ".pt")
+            # image = np.swapaxes(image, 0, 2)
+            # image = np.swapaxes(image, 2, 1)
         else:
             image = torch.load("../data/tensors/" + image_path + ".pt")
             transform = transforms.Compose([ 
@@ -68,8 +70,8 @@ def get_data_loader(sampling = "random", bounding_boxes = True):
     valData = ISRDataset(bb = bounding_boxes, enum = VAL)
     testData = ISRDataset(bb = bounding_boxes, enum = TEST)
 
-    train_loader = DataLoader(trainData, batch_size=32, shuffle=True)
-    val_loader = DataLoader(valData, batch_size=32, shuffle=False)
-    test_loader = DataLoader(testData, batch_size=32, shuffle=False)
+    train_loader = DataLoader(trainData, batch_size=64, shuffle=True)
+    val_loader = DataLoader(valData, batch_size=64, shuffle=False)
+    test_loader = DataLoader(testData, batch_size=64, shuffle=False)
 
     return train_loader, val_loader, test_loader

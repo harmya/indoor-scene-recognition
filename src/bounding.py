@@ -18,6 +18,16 @@ model = YOLO('yolov9c.pt')
 def stack_bb(file_name):
     image = torch.load(file_name)
     results = model.predict(image, conf=0.5)
+
+    # This code is for saving annotated bounding images
+    # if not os.path.exists(f"../data/tensors_bb/{file_name.split('/')[-2]}"):
+    #     os.makedirs(f"../data/tensors_bb/{file_name.split('/')[-2]}")
+    # result = results[0].plot()
+    # res = torch.tensor(result)
+    # res = res.movedim(-1, 0)
+    # torch.save(results, "../data/bb_orig/" + "/".join(file_name.split('/')[-2:]))
+
+    # Below code is for saving added bounding boxes
     transform = transforms.Compose([ 
         transforms.PILToTensor() 
     ]) 
@@ -31,7 +41,7 @@ def stack_bb(file_name):
             box_class = box.cls
             top_left = [int(box_coords[0][0]), int(box_coords[0][1])]
             bottom_right = [int(box_coords[0][2]), int(box_coords[0][3])]
-            new_img[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]] = box_class + 1
+            new_img[top_left[1]:bottom_right[1], top_left[0]:bottom_right[0]] = (box_class + 1) * 10
             modded_image += new_img.long()
     modded_image = torch.tensor(modded_image)
     if not os.path.exists(f"../data/tensors_bb/{file_name.split('/')[-2]}"):
